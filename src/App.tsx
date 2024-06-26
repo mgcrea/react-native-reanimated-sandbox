@@ -20,7 +20,6 @@ import {
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { SvgMask, ViewMask } from "./components";
-import { ZoomView } from "./components/ZoomView";
 import { Size } from "./types";
 
 type SectionProps = PropsWithChildren<{
@@ -74,7 +73,7 @@ function App(): React.JSX.Element {
         barStyle={isDarkMode ? "light-content" : "dark-content"}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ZoomView style={{ padding, flex: 1, backgroundColor: "darkseagreen" }}>
+      <View style={{ padding, flex: 1, backgroundColor: "darkseagreen" }}>
         <Image
           resizeMode="contain"
           onLayout={(event) => {
@@ -101,7 +100,7 @@ function App(): React.JSX.Element {
             style={{ left: "50%" }}
           />
         ) : null}
-      </ZoomView>
+      </View>
     </GestureHandlerRootView>
   );
 }
