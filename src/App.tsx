@@ -1,17 +1,8 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import type { PropsWithChildren } from "react";
 import React from "react";
 import {
   Image,
   StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
   useWindowDimensions,
   View,
@@ -21,38 +12,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { SvgMask, ViewMask } from "./components";
 import { Size } from "./types";
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({ children, title }: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === "dark";
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}
-      >
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}
-      >
-        {children}
-      </Text>
-    </View>
-  );
-}
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === "dark";
