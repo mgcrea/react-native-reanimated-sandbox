@@ -96,7 +96,7 @@ export const ViewRectHandle: FunctionComponent<ViewRectHandleProps> = ({
     [id, onPressIn],
   );
 
-  const size = 16;
+  const size = 32;
 
   return (
     <Pressable onPressIn={handlePressIn}>

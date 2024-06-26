@@ -12,7 +12,7 @@ export type SvgResizableRectHandleProps = {
   onPressIn?: (ev: GestureResponderEvent, id: string) => void;
 };
 export const SvgResizableRectHandle: FunctionComponent<SvgResizableRectHandleProps> = ({
-  size = 16,
+  size = 32,
   id,
   rect,
   isActive,
