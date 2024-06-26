@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import {
   Gesture,
   GestureDetector,
@@ -76,13 +76,11 @@ export const SvgMask: FunctionComponent<SvgMaskProps> = ({ simultaneousGestures 
 
   return (
     <GestureDetector gesture={composedGesture}>
-      <View style={StyleSheet.absoluteFill}>
-        <Svg height="100%" width="100%" style={StyleSheet.absoluteFill}>
-          <G>
-            <Circle cx={100} cy={100} r={10} fill="red" />
-          </G>
-        </Svg>
-      </View>
+      <Svg height="100%" width="100%" style={StyleSheet.absoluteFill}>
+        <G>
+          <Circle cx={100} cy={100} r={10} fill="red" />
+        </G>
+      </Svg>
     </GestureDetector>
   );
 };
