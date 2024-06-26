@@ -17,9 +17,9 @@ import {
   View,
 } from "react-native";
 
-import { Gesture, GestureHandlerRootView } from "react-native-gesture-handler";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Colors } from "react-native/Libraries/NewAppScreen";
-import { SvgMask } from "./components";
+import { SvgMask, ViewMask } from "./components";
 import { ZoomView } from "./components/ZoomView";
 import { Size } from "./types";
 
@@ -68,22 +68,13 @@ function App(): React.JSX.Element {
   const width = screenWidth - padding * 2;
   const height = screenHeight - padding * 2;
 
-  const rootPanGesture = Gesture.Pan();
-  const rootPinchGesture = Gesture.Pinch();
-  const rootRotationGesture = Gesture.Rotation();
-
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar
         barStyle={isDarkMode ? "light-content" : "dark-content"}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ZoomView
-        style={{ padding, flex: 1, backgroundColor: "darkseagreen" }}
-        panGesture={rootPanGesture}
-        pinchGesture={rootPinchGesture}
-        rotationGesture={rootRotationGesture}
-      >
+      <ZoomView style={{ padding, flex: 1, backgroundColor: "darkseagreen" }}>
         <Image
           resizeMode="contain"
           onLayout={(event) => {
@@ -100,7 +91,14 @@ function App(): React.JSX.Element {
           <SvgMask
             imageSize={{ width, height }}
             containerSize={containerSize}
-            simultaneousGestures={[rootPanGesture, rootPinchGesture, rootRotationGesture]}
+            style={{ right: "50%" }}
+          />
+        ) : null}
+        {containerSize ? (
+          <ViewMask
+            imageSize={{ width, height }}
+            containerSize={containerSize}
+            style={{ left: "50%" }}
           />
         ) : null}
       </ZoomView>
