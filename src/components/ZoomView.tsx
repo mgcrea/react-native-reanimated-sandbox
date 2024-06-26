@@ -26,11 +26,15 @@ export const ZoomView: FunctionComponent<PropsWithChildren<ZoomViewProps>> = ({
   style,
 }) => {
   const scale = useSharedValue(1);
+  const lastScale = useSharedValue(1);
   const rotation = useSharedValue(0);
-  const focal = useSharedPoint(0, 0);
+  const lastRotation = useSharedValue(0);
+  const offset = useSharedSize(0, 0);
+  const lastOffset = useSharedSize(0, 0);
+
   const origin = useSharedPoint(0, 0);
-  const translation = useSharedPoint(0, 0);
   const size = useSharedSize(0, 0);
+  const focal = useSharedPoint(0, 0);
 
   pinchGesture
     .onUpdate((event) => {
@@ -39,8 +43,10 @@ export const ZoomView: FunctionComponent<PropsWithChildren<ZoomViewProps>> = ({
       if (event.numberOfPointers !== 2) {
         return;
       }
+      const delta = event.scale / lastScale.value;
+      lastScale.value = event.scale;
+      scale.value *= delta;
       // Track the scale and focal point
-      scale.value = event.scale;
       focal.x.value = event.focalX;
       focal.y.value = event.focalY;
       origin.x.value = event.focalX - size.width.value / 2;
@@ -48,10 +54,7 @@ export const ZoomView: FunctionComponent<PropsWithChildren<ZoomViewProps>> = ({
     })
     .onEnd((_event) => {
       "worklet";
-      // Reset the scale and origin
-      origin.x.value = 0;
-      origin.y.value = 0;
-      scale.value = 1;
+      lastScale.value = 1.0;
     });
 
   panGesture
@@ -61,14 +64,13 @@ export const ZoomView: FunctionComponent<PropsWithChildren<ZoomViewProps>> = ({
       if (event.pointerType === PointerType.STYLUS) {
         return;
       }
-      translation.x.value = event.translationX;
-      translation.y.value = event.translationY;
+      offset.width.value = lastOffset.width.value + event.translationX;
+      offset.height.value = lastOffset.height.value + event.translationY;
     })
     .onEnd((_event) => {
       "worklet";
-      // Reset the translation
-      translation.x.value = 0;
-      translation.y.value = 0;
+      lastOffset.width.value = offset.width.value;
+      lastOffset.height.value = offset.height.value;
     });
 
   rotationGesture
@@ -78,20 +80,20 @@ export const ZoomView: FunctionComponent<PropsWithChildren<ZoomViewProps>> = ({
       if (event.numberOfPointers !== 2) {
         return;
       }
-      // Track the rotation
-      rotation.value = event.rotation;
+      const delta = event.rotation - lastRotation.value;
+      lastRotation.value = event.rotation;
+      rotation.value += delta;
     })
     .onEnd((_event) => {
       "worklet";
-      // Reset the rotation
-      rotation.value = 0;
+      lastRotation.value = 0;
     });
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        { translateX: translation.x.value },
-        { translateY: translation.y.value },
+        { translateX: offset.width.value },
+        { translateY: offset.height.value },
         { rotate: `${rotation.value}rad` },
         { scale: scale.value },
       ],
