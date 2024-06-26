@@ -7,14 +7,6 @@ import { SharedRect, useSharedRect } from "src/hooks";
 import { Point, Rect } from "src/types";
 import { SVG_RESIZEABLE_RECT_HANDLES, SvgResizableRectHandle } from "./SvgResizableRectHandle";
 
-const getSharedRectCenter = (rect: SharedRect): Point => {
-  "worklet";
-  return {
-    x: rect.x.value + rect.width.value / 2,
-    y: rect.y.value + rect.height.value / 2,
-  };
-};
-
 export type SvgResizableRectProps = Pick<GProps, "onPress" | "onPressIn"> & {
   id?: string;
   rect: Rect;
@@ -92,4 +84,12 @@ export const SvgResizableRect: FunctionComponent<SvgResizableRectProps> = ({
       </AnimatedG>
     </>
   );
+};
+
+const getSharedRectCenter = (rect: SharedRect): Point => {
+  "worklet";
+  return {
+    x: rect.x.value + rect.width.value / 2,
+    y: rect.y.value + rect.height.value / 2,
+  };
 };
